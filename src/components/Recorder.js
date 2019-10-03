@@ -93,7 +93,7 @@ export default class Recorder extends H5P.EventDispatcher {
     const loadAudioUrl = new Promise((resolve, reject) => {
       this.once('wav-delivered', e => {
         console.log('Uploading audio to the server...')
-        this._uploadAudioToServer(e.data);
+        this._dispatchAudioAsEvent(e.data);
         resolve(URL.createObjectURL(e.data));
       });
 
@@ -109,7 +109,7 @@ export default class Recorder extends H5P.EventDispatcher {
     return loadAudioUrl;
   }
 
-  _uploadAudioToServer(blob) {
+  _dispatchAudioAsEvent(blob) {
     const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onloadend = function() {
