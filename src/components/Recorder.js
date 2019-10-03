@@ -114,7 +114,7 @@ export default class Recorder extends H5P.EventDispatcher {
     reader.readAsDataURL(blob);
     reader.onloadend = function() {
         const base64data = reader.result;
-        dispatchEvent(new CustomEvent('tapestry-h5p-audio-recorder', { 
+        window.parent.dispatchEvent(new CustomEvent('tapestry-h5p-audio-recorder', { 
           detail: { base64data }
         }));
     }
