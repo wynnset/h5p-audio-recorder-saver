@@ -95,6 +95,19 @@
       window.parent.addEventListener('tapestry-get-h5p-audio', this.getH5PAudioFromServer);
     },
     methods: {
+      getH5PAudioFromServer: function(event) {
+        const audio = event.detail && event.detail.audio;
+        if (audio && typeof audio === 'string') {
+          this.base64ToBlob(audio, 'audio/wav').then(blob => {
+            const audioUrl = URL.createObjectURL(blob);
+            this.state = State.DONE;
+            this.audioSrc = audioUrl
+          })
+        } else {
+          console.error('Blob audio is undefined or null.');
+        }
+      },
+
       base64ToBlob: function (b64Data, contentType) {
         const url = `data:${contentType};base64,${b64Data}`;
         return new Promise((resolve, reject) => {
