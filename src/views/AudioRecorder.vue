@@ -91,6 +91,9 @@
   refToFocusOnStateChange[State.DONE] = 'button-download';
 
   export default {
+    mounted() {
+      window.parent.addEventListener('tapestry-get-h5p-audio', this.getH5PAudioFromServer);
+    },
     methods: {
       record: function() {
         this.$emit(State.RECORDING);
