@@ -95,6 +95,15 @@
       window.parent.addEventListener('tapestry-get-h5p-audio', this.getH5PAudioFromServer);
     },
     methods: {
+      base64ToBlob: function (b64Data, contentType) {
+        const url = `data:${contentType};base64,${b64Data}`;
+        return new Promise((resolve, reject) => {
+          return fetch(url).then(response => {
+            resolve(response.blob());
+          })
+        })
+      },
+
       record: function() {
         this.$emit(State.RECORDING);
       },
