@@ -1,5 +1,5 @@
 {
-  "name": "h5p-audio-recorder",
+  "name": "h5p-audio-recorder-saver",
   "version": "0.0.1",
   "description": "H5P content type for recording audio",
   "scripts": {
