@@ -14,11 +14,13 @@ Build project for production:
 npm run build
 ```
 
-Run tests:
+# How to import to Wordpress
+1. After building the distribution code (step above), double-check to ensure the `dist/h5p-audio-recorder.js` is generated.
+2. Remove all the unnecessary files with extension: `.Vue .yml, .babelrc, .h5pignore, .gitignore, .git, .DS_store, .md, node_modules`. Only .json and .js file extensions are allowed by WordPress.
+2. Change the name of the folder to `H5P.AudioRecorderSaver` so it matches the machineName described in `library.json`.
+3. Zip the entire folder and upload to Wordpress as a new library.
 
-```bash
-npm test
-```
+_Notes: Version number, title and machineName information could be found and updated in `library.json`._
 
 ## Translating
 
