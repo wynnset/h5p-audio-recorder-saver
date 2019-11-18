@@ -92,6 +92,8 @@ export default class Recorder extends H5P.EventDispatcher {
 
     const loadAudioUrl = new Promise((resolve, reject) => {
       this.once('wav-delivered', e => {
+        console.log('Uploading audio to the server...')
+        this._dispatchAudioAsEvent(e.data);
         resolve(URL.createObjectURL(e.data));
       });
 
@@ -105,6 +107,17 @@ export default class Recorder extends H5P.EventDispatcher {
     });
 
     return loadAudioUrl;
+  }
+
+  _dispatchAudioAsEvent(blob) {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = function() {
+        const base64data = reader.result;
+        window.parent.dispatchEvent(new CustomEvent('tapestry-h5p-audio-recorder', { 
+          detail: { base64data }
+        }));
+    }
   }
 
   /**
@@ -245,10 +258,18 @@ export default class Recorder extends H5P.EventDispatcher {
       command: 'clear'
     });
 
-    this.stream.getAudioTracks().forEach(track => track.stop());
-    this.sourceNode.disconnect();
-    this.scriptProcessorNode.disconnect();
-    this.audioContext.close();
+    if (this.stream) {
+      this.stream.getAudioTracks().forEach(track => track.stop());
+    }
+    if (this.sourceNode) {
+      this.sourceNode.disconnect();
+    }
+    if (this.scriptProcessorNode) {
+      this.scriptProcessorNode.disconnect();
+    }
+    if (this.audioContext) {
+      this.audioContext.close();
+    }
 
     delete this.userMedia;
   }
